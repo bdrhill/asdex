@@ -155,7 +155,8 @@ def test_empty2_in_cond_gradient_jacobian():
     """
 
     def f(x):
-        # Branches of different shapes make AD allocate the undefined residual.
+        # The differentiable branch has residuals, so differentiating the cond
+        # makes AD allocate undefined residuals with empty2 inside the branches.
         return lax.cond(
             x[0] > 0, lambda v: jnp.array(1.0), lambda v: jnp.sum(jnp.sin(v)), x
         )
